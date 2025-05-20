@@ -1,6 +1,6 @@
-var Streams = ["FastMedia", "CloudStream", "VidSrc2", "GoMo"]
+var Streams = ["FastMedia TEST", "CloudStream", "VidSrc2", "GoMo"]
 
-function FastMedia(IMDBID, Season, Episode) {
+function FastMediaTEST(IMDBID, Season, Episode) {
     let Params
     if (Season != null && Episode != null) {
         Params = `${IMDBID}-${Season}-${Episode}`
