@@ -26,7 +26,7 @@ function CloudStream(IMDBID, Season, Episode) {
     if (DataHash == null) return []
     let ProRCP = MatchText(FetchHTML(`https://${Domain}/rcp/${DataHash}`, `https://vidsrc.net/embed/${Params}`, HTML => HTML.includes("player_iframe")), "src: '(.*?)'", false)[0]
     if (ProRCP == null) return []
-    let VideoURL = MatchText(FetchHTML(`https://${Domain}/${ProRCP}`, `https://${Domain}/rcp/${DataHash}`, HTML => HTML.includes(".m3u8")), "src=\"(.*?).m3u8\"", false)[0]
+    let VideoURL = MatchText(FetchHTML(`https://${Domain}/${ProRCP}`, `https://${Domain}/rcp/${DataHash}`, HTML => HTML.includes("<video muted=\"1\" playsinline=\"1\" autoplay=\"1\" src=\"")), "src=\"(.*?).m3u8\"", false)[0]
     if (VideoURL == null) return []
     return [`${VideoURL}.m3u8`, `https://${Domain}/${ProRCP}`]
 }
