@@ -79,7 +79,7 @@ function GoMo(IMDBID, Season, Episode) {
 
 // Useful functions
 function GetTMDBID(IMDBID, IsShow) {
-    let Results = JSON.parse(DataToString(URLRequest(`https://api.themoviedb.org/3/find/${IMDBID}?api_key=b09fa5a94c26c11d6773f3ef07829cfe&external_source=imdb_id`)))[`${IsShow ? "tv" : "movie"}_results`]
+    let Results = JSON.parse(DataToString(URLRequest(`https://api.themoviedb.org/3/find/${IMDBID}${TMDBAPIKey}&external_source=imdb_id`)))[`${IsShow ? "tv" : "movie"}_results`]
     return Results?.length > 0 ? Results[0].id : null
 }
 
