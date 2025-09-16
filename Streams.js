@@ -7,7 +7,7 @@ function FastMedia(IMDBID, Season, Episode) {
     } else {
         Params = IMDBID
     }
-    let Response = DataToString(URLRequest("http://movies5.online/movies/media", {"Next-Action": "50648bbc871c4c77283ab5c9a870d999c047fbf5", "Content-Type": "text/plain"}, StringToData(`["${Params}"]`)))
+    let Response = DataToString(URLRequest("http://192.168.1.20/movies/media", {"Next-Action": "50648bbc871c4c77283ab5c9a870d999c047fbf5", "Content-Type": "text/plain"}, StringToData(`["${Params}"]`)))
     if (Response == null) return []
     let M3U8URL = MatchText(Response, "\"sourceUrl\":\"(.*?).m3u8\"")[0]
     if (M3U8URL == null) return []
