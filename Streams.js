@@ -7,8 +7,7 @@ function FastMedia(IMDBID, Season, Episode) {
     } else {
         Params = IMDBID
     }
-    StartProxy("movies5.online", 443, 80)
-    let Response = DataToString(URLRequest("http://localhost/movies/media", {"Next-Action": "50648bbc871c4c77283ab5c9a870d999c047fbf5", "Content-Type": "text/plain", "Host": "movies5.online"}, StringToData(`["${Params}"]`)))
+    let Response = DataToString(URLRequest("https://corsproxy.io/?url=https://movies5.online/movies/media", {"Next-Action": "50648bbc871c4c77283ab5c9a870d999c047fbf5", "Content-Type": "text/plain"}, StringToData(`["${Params}"]`)))
     if (Response == null) return []
     let M3U8URL = MatchText(Response, "\"sourceUrl\":\"(.*?).m3u8\"")[0]
     if (M3U8URL == null) return []
