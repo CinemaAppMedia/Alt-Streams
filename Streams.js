@@ -42,7 +42,7 @@ function VidSrc2(IMDBID, Season, Episode) {
     }
     WebViewLoad(`https://player.vidsrc.co/embed/${Params}?server=1`)
     var VideoURL = ""
-    while (VideoURL == "") VideoURL = WebViewRunJS("document.querySelector('video')?.src;")
+    while (VideoURL == "") VideoURL = WebViewRunJS("Array.from(document.querySelector('video')?.querySelectorAll('source'))?.map(src => src.src)[1];")
     WebViewReset()
     return [VideoURL]
 }
