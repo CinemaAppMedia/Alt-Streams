@@ -1,4 +1,4 @@
-var Streams = ["FastMedia", "CloudStream", "VidSrc2", "GoMo"]
+var Streams = ["FastMedia", "CloudStream", "GoMo"]
 
 function FastMedia(IMDBID, Season, Episode) {
     let Params
@@ -29,22 +29,6 @@ function CloudStream(IMDBID, Season, Episode) {
     let VideoURL = MatchText(FetchHTML(`https://${Domain}/${ProRCP}`, `https://${Domain}/rcp/${DataHash}`, HTML => HTML.includes("<video muted=\"1\" playsinline=\"1\" autoplay=\"1\" src=\"")), "src=\"(.*?).m3u8\"", false)[0]
     if (VideoURL == null) return []
     return [`${VideoURL}.m3u8`, `https://${Domain}/${ProRCP}`]
-}
-
-function VidSrc2(IMDBID, Season, Episode) {
-    let TMDBID = GetTMDBID(IMDBID, Season != null && Episode != null)
-    if (TMDBID == null) return []
-    let Params
-    if (Season != null && Episode != null) {
-        Params = `tv/${TMDBID}/${Season}/${Episode}`
-    } else {
-        Params = `movie/${TMDBID}`
-    }
-    WebViewLoad(`https://player.vidsrc.co/embed/${Params}?server=1`)
-    var VideoURL = ""
-    while (VideoURL == "") VideoURL = WebViewRunJS("Array.from(document.querySelector('video')?.querySelectorAll('source'))?.map(src => src.src)[1];")
-    WebViewReset()
-    return [VideoURL]
 }
 
 function GoMo(IMDBID, Season, Episode) {
