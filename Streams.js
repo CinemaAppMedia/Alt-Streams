@@ -1,4 +1,4 @@
-var Streams = ["FastMedia", "CloudStream", "GoMo"]
+var Streams = ["FastMedia", "CloudStream", "GoMo", "VidEasy"]
 
 function FastMedia(IMDBID, Season, Episode) {
     let Params
@@ -59,6 +59,24 @@ function GoMo(IMDBID, Season, Episode) {
     let MP4URL = MatchText(FetchHTML(`https://d000d.com/download/${DownloadURL}`, `https://d000d.com/d/${DoodStreamID}`, HTML => HTML.includes("Download file")), "<a href=\"(.*?)\" class=\"btn btn-primary d-flex align-items-center justify-content-between\">", false)[0]
     if (MP4URL == null) return []
     return [MP4URL, `https://d000d.com/d/${DoodStreamID}`]
+}
+
+function VidEasy(IMDBID, Season, Episode) {
+    let TMDBID = GetTMDBID(IMDBID, Season != null && Episode != null)
+    if (TMDBID == null) return []
+    let Params
+    if (Season != null && Episode != null) {
+        Params = `mediaType=tv&episodeId=${Episode}&seasonId=${Season}&tmdbId=${TMDBID}`
+    } else {
+        Params = `mediaType=movie&tmdbId=${TMDBID}`
+    }
+    let Encrypted = DataToString(URLRequest(`https://api.videasy.net/myflixerzupcloud/sources-with-title?${Params}`))
+    let Decrypted = DataToString(URLRequest("https://enc-dec.app/api/dec-videasy", {"Content-Type": "application/json"}, StringToData(`{\"text\": \"${Encrypted}\", \"id\": \"${TMDBID}\"}`)))
+    let Result = JSON.parse(Decrypted).result
+    if (Result == null) return []
+    let Sources = Result.sources
+    if (Sources.length < 1) return []
+    return [Sources[0].url, "https://player.videasy.net"]
 }
 
 // Useful functions
